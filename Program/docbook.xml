@@ -49,7 +49,7 @@
  * @author Tsykura
  * @version 1.0.1
  */
-const openFile = (evt) => {
+const HIT = (evt) => {
     /**
      * Переменная для целевого файла
      *
@@ -207,8 +207,8 @@ function deleteAllChildren( node ) {
  */
 function createSVGPanel() {
     var
-        width = prompt('Введите ширину нового поля', 900),
-        height = prompt('Введите высоту нового поля', 500);
+        width = prompt('Введите ', 900),
+        height = prompt('Введите ', 500);
 
     if (width &lt; 1 || height &lt; 1){
         alert("Пожалуйста, введите корректные данные!")
