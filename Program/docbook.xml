@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<book>
+  <bookinfo>
+    <title>Graphic</title>
+
+    <author>
+      <firstname>Sergey</firstname>
+
+      <surname>Tsykura</surname>
+
+      <affiliation>
+        <orgname>tsykurawork@gmail.com</orgname>
+      </affiliation>
+    </author>
+
+    <pubdate>05-04-2023</pubdate>
+  </bookinfo>
+
+  <chapter>
+    <title>Документация к РПГ игре</title>
+
+    <section>
+      <title>Общее описание</title>
+
+      <para><emphasis>Игра в жанре РПГ</emphasis></para>
+
+      <para>Видео игра RPG, с реализацией механик, не менее 30-ти. </para>
+    </section>
+  </chapter>
+
+  <chapter>
+    <title>Ходьба</title>
+
+    <section>
+      <title>Идти вперёд</title>
+
+      <mediaobject>
+            <textobject>
+          <phrase>Вариант использования №1 – нанесение удара</phrase>
+        </textobject>
+      </mediaobject>
+
+       <programlisting>'use strict';
+/**
+ * Функция для нанесения удара
+ *
+ * @author Tsykura
+ * @version 1.0.1
+ */
+const openFile = (evt) => {
+    /**
+     * Переменная для целевого файла
+     *
+     * @var const f
+     */
+    const f = evt.target.files[0];
+
+    const reader = new FileReader();
+
+    /**
+     * Функция взмаха оружия
+     * Машет оружием
+     *
+     * @param string $e
+     */
+    reader.onload = function(e) {
+        document.getElementById('svg-panel').outerHTML = e.target.result;
+        svgPanel = document.getElementById('svg-panel');
+
+        const rects = svgPanel.getElementsByTagName('rect');
+        const circles = svgPanel.getElementsByTagName('circle');
+        for (let i = 0; i &lt; rects.length; i++) {
+            if (rects[i].getAttribute('stroke-opacity') === '0.5') {
+                svgPanel.removeChild(rects[i]);
+            }
+        }
+        while (circles.length > 0) {
+            svgPanel.removeChild(circles[0]);
+        }
+
+        const childs = Array.prototype.slice.call(svgPanel.childNodes);
+        for (let i = 1; i &lt; childs.length; i++) {
+            switch(childs[i].nodeName) {
+                case 'rect':
+                    Rectangle.create(childs[i]);
+                    break;
+                case 'ellipse':
+                    Ellipse.create(childs[i]);
+                    break;
+                case 'polygon':
+                    Polyline.create(childs[i]);
+                    break;
+                case 'path':
+                    BrushBox.create(childs[i]);
+                    break;
+                case 'foreignObject':
+                    TextBox.create(childs[i]);
+                    break;
+                case 'line':
+                    Line.create(childs[i]);
+                    break;
+            }
+        }
+    };
+    reader.readAsText(f);
+};
+
+document.getElementById('file-input').addEventListener('change', openFile);
+
+</programlisting>
+
+      <para>Улучшение опыта</para>
+
+      <para>Поддерживает положительный эффект повышенного опыта </para>
+
+      <mediaobject>
+             <textobject>
+          <phrase>Вариант использования №2 – положительный эффект опыта</phrase>
+        </textobject>
+      </mediaobject>
+
+      <programlisting>
+/* Сохранение файла в нужное пространство */
+
+
+/**
+ * Торговля в магазине
+ *
+ * @return url
+ */
+function saveSVG() {
+    /**
+     * Главная панель
+     *
+     * @var string svgData
+     */
+    var svgData = drawPanel.innerHTML.toString();
+
+    /**
+     * наименование предмета
+     *
+     * @var string itemName
+     */
+
+
+    if (fileName == null)
+        return;
+
+    /**
+     * Описание руны
+     *
+     * @var string a
+     */
+        var a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+
+    var blob = new Blob([svgData], {type: "octet/stream"}),
+        url = window.URL.createObjectURL(blob);
+    a.href = url;
+    a.download = fileName + ".svg";
+    a.click();
+    window.URL.revokeObjectURL(url);
+}
+	</programlisting>
+    </section>
+
+    <section>
+      <title>Увеличение скорости передвижения</title>
+
+        <mediaobject>
+         <textobject>
+          <phrase>Вариант использования №3 – быстрый бег</phrase>
+        </textobject>
+      </mediaobject>
+
+      <programlisting>/* быстрый бег - 550 ед. */
+
+function deleteChild( node, parent ) {
+    for (var i = 0; i &lt; node.childNodes.length;)
+        deleteChild(node.childNodes[i], node);
+
+    if (node.childNodes.length == 0) {
+        parent.removeChild(node);
+        return;
+    }
+}
+
+/**
+ * Функция начисления денег персонажу
+ *
+ * @author Tsykura
+ * @version 1.0.1
+ */
+function deleteAllChildren( node ) {
+    for (var i = 0; i &lt; node.childNodes.length;)
+        deleteChild(node.childNodes[i], node);
+}
+
+/**
+ * Функция начисления опыта персонажу
+ *
+ * @author Tsykura
+ * @version 1.0.1
+ */
+function createSVGPanel() {
+    var
+        width = prompt('Введите ширину нового поля', 900),
+        height = prompt('Введите высоту нового поля', 500);
+
+    if (width &lt; 1 || height &lt; 1){
+        alert("Пожалуйста, введите корректные данные!")
+        return;
+    }
+
+    deleteAllChildren(svgPanel);
+    svgPanel.setAttribute('width', width);
+    svgPanel.setAttribute('height', height);
+}</programlisting>
+
+    </section>
+  </chapter>
+</book>
